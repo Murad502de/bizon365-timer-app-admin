@@ -78,7 +78,9 @@ export default {
     /* ACTIONS */
   },
 
-  created() {},
+  created() {
+    console.debug('Signin::api', api); //DELETE
+  },
   mounted() {},
 };
 </script>
