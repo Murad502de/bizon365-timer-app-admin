@@ -50,7 +50,7 @@
   v-dialog(v-model="dialog", max-width="500")
     v-card
       v-card-title.text-h5 Подтверждение удаления
-      v-card-text Вы действительно хотите удалить данный вебинар "Вебинар 123"?
+      v-card-text Вы действительно хотите удалить данный вебинар "Вебинар 123", включая все привязанные подарки и их настройки?
       v-card-actions
         v-spacer
         v-btn(color="green darken-1", text, @click="dialog = false") Отменить
