@@ -46,6 +46,15 @@
               v-icon.webinar-list-page__list-item--actions_delete(
                 color="#ff5252"
               ) mdi-delete
+
+  v-dialog(v-model="dialog", max-width="500")
+    v-card
+      v-card-title.text-h5 Подтверждение удаления
+      v-card-text Вы действительно хотите удалить данный вебинар "Вебинар 123"?
+      v-card-actions
+        v-spacer
+        v-btn(color="green darken-1", text, @click="dialog = false") Отменить
+        v-btn(color="error darken-1", text, @click="dialog = false") Удалить
 </template>
 
 <script>
@@ -56,6 +65,7 @@ export default {
   data() {
     return {
       webinars: [{}, {}, {}, {}],
+      dialog: false,
     };
   },
   computed: {},
@@ -83,7 +93,9 @@ export default {
       });
     },
     deleteWebinar() {
-      console.debug("delete"); //DELETE
+      console.debug("delete"); //
+
+      this.dialog = true;
     },
 
     /* HELPERS */
