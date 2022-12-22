@@ -37,25 +37,25 @@
           :rules="webinarNameRules"
         )
         v-text-field.webinar-detail-page__form-input(
-          v-model="webinarCode"
-          label="Идентификационный номер вебинара"
-          variant="outlined"
-          color="blue"
-          required
+          v-model="webinarCode",
+          label="Идентификационный номер вебинара",
+          variant="outlined",
+          color="blue",
+          required,
           :rules="webinarCodeRules"
         )
 
       .webinar-detail-page__gifts
         .webinar-detail-page__gifts--head
           v-list-item-title.text-h6.webinar-detail-page__gifts-title Подарки
-          v-btn.mx-2(color="indigo" @click="addGift") Добавить
+          v-btn.mx-2(color="indigo", @click="addGift") Добавить
 
         .webinar-detail-page__gifts--body
           v-card.webinar-detail-page__gift(
-            v-for="(gift, index) in gifts"
-            :key="index"
-            max-width="900"
-            min-width="700"
+            v-for="(gift, index) in gifts",
+            :key="index",
+            max-width="900",
+            min-width="700",
             elevation="3"
           )
             .webinar-detail-page__gift--name Подарок {{ index }}
@@ -79,6 +79,24 @@
                 v-icon.webinar-detail-page__gift--actions_delete(
                   color="#ff5252"
                 ) mdi-delete
+
+  v-dialog(v-model="deleteDialog", max-width="500")
+    v-card
+      v-card-title.text-h5 Подтверждение удаления
+      v-card-text Вы действительно хотите удалить данный подарок "Подарок 123"?
+      v-card-actions
+        v-spacer
+        v-btn(color="green darken-1", text, @click="deleteDialog = false") Отменить
+        v-btn(color="error darken-1", text, @click="deleteDialog = false") Удалить
+
+  v-dialog(v-model="escapeDialog", max-width="500")
+    v-card
+      v-card-title.text-h5 Подтверждение ухода
+      v-card-text Вы действительно хотите вернуться к списку вебинаров? Внимание, все несохранённые изменения будут удалены.
+      v-card-actions
+        v-spacer
+        v-btn(color="green darken-1", text, @click="escapeDialog = false") Отменить
+        v-btn(color="error darken-1", text, @click="approveBack") Назад
 </template>
 
 <script>
@@ -88,6 +106,8 @@ export default {
   props: {},
   data() {
     return {
+      deleteDialog: false,
+      escapeDialog: false,
       valid: true,
       webinarName: "",
       webinarNameRules: [(v) => !!v || "Обязательно к заполненнию"],
@@ -107,6 +127,12 @@ export default {
     back() {
       console.debug("webinar/back"); //DELETE
 
+      this.escapeDialog = true;
+    },
+    approveBack() {
+      console.debug("webinar/approveBack"); //DELETE
+
+      this.escapeDialog = false;
       this.$router.push({ name: "index" });
     },
     save() {
@@ -120,6 +146,8 @@ export default {
     },
     deleteGift() {
       console.debug("webinar/deleteGift"); //DELETE
+
+      this.deleteDialog = true;
     },
 
     /* HELPERS */
