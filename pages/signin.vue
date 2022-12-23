@@ -88,19 +88,19 @@ export default {
     /* SETTERS */
     /* HANDLERS */
     async signin() {
-      console.debug("pages/signin/methods/signin"); //DELETE
+      // console.debug("pages/signin/methods/signin"); //DELETE
 
       this.loading = true;
       const response = await signinService(this.email, this.password); //DELETE
 
-      console.debug("pages/signin/methods/signin/response", response); //DELETE
-      console.debug(
-        "pages/signin/methods/signin/response/status",
-        response.status
-      ); //DELETE
+      // console.debug("pages/signin/methods/signin/response", response); //DELETE
+      // console.debug(
+      //   "pages/signin/methods/signin/response/status",
+      //   response.status
+      // ); //DELETE
 
       if (response.status !== 200) {
-        console.debug("pages/signin/methods/signin/error"); //DELETE
+        // console.debug("pages/signin/methods/signin/error"); //DELETE
 
         this.loading = false;
         this.errorAuthDialog = true;
@@ -108,7 +108,7 @@ export default {
         return;
       }
 
-      console.debug("pages/signin/methods/signin/success", response); //DELETE
+      // console.debug("pages/signin/methods/signin/success", response); //DELETE
 
       await this.signinStore(response.user);
 
@@ -128,8 +128,8 @@ export default {
   },
 
   created() {
-    console.debug("Signin/created/api", api); //DELETE
-    console.debug("Signin/created/user", this.user); //DELETE
+    // console.debug("Signin/created/api", api); //DELETE
+    // console.debug("Signin/created/user", this.user); //DELETE
   },
   mounted() {},
 };

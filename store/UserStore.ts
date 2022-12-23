@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import Cookies from 'js-cookie';
 import { User } from '@/domain/User';
-import { getCredentials } from '@/services/credentials/credentialsService';
+import { getCredentials, setCredentials, resetCredentials, } from '@/services/credentials/credentialsService';
 
 interface State {
   user: User | null;
@@ -14,7 +14,7 @@ export const useUserStore = defineStore('UserStore', {
 
   getters: {
     my: (state): User | any => {
-      console.debug('store/UserStore/my'); //DELETE
+      // console.debug('store/UserStore/my'); //DELETE
 
       return state.user;
     },
@@ -22,12 +22,21 @@ export const useUserStore = defineStore('UserStore', {
 
   actions: {
     async signin(user: User) {
-      console.debug('store/UserStore/signin/user', user); //DELETE
+      // console.debug('store/UserStore/signin/user', user); //DELETE
 
       this.user = user;
 
-      Cookies.set('uuid', user.uuid);
-      Cookies.set('token', user.token);
+      setCredentials(user);
+    },
+    async signout() {
+      // console.debug('store/UserStore/signout'); //DELETE
+
+      this.user = {
+        uuid: '',
+        token: '',
+      };
+
+      resetCredentials();
     },
   },
 });

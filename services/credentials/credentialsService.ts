@@ -6,12 +6,10 @@ export const setCredentials = (user: User): void => {
   Cookies.set('token', user.token);
 };
 export const resetCredentials = (): void => {
-  const user: User = {
+  setCredentials({
     uuid: '',
     token: '',
-  };
-
-  setCredentials(user);
+  });
 };
 export const getCredentials = (): User => ({
   uuid: Cookies.get('uuid') || '',

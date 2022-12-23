@@ -1,6 +1,7 @@
 <template lang="pug">
 v-app
   v-btn.layout-default__logout(
+    v-if="$route.name !== 'signin'",
     icon,
     elevation="1",
     height="48",
@@ -13,6 +14,9 @@ v-app
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useUserStore } from "@/store/UserStore";
+
 export default {
   components: {},
 
@@ -24,11 +28,17 @@ export default {
 
   watch: {},
   methods: {
+    /* STORE */
+    ...mapActions(useUserStore, { signoutStore: "signout" }),
+
     /* GETTERS */
     /* SETTERS */
     /* HANDLERS */
-    signout() {
-      console.debug("layout/default/methods/signout"); //DELETE
+    async signout() {
+      // console.debug("layout/default/methods/signout"); //DELETE
+
+      await this.signoutStore();
+      this.$router.push({ name: "signin" });
     },
 
     /* HELPERS */
@@ -36,10 +46,10 @@ export default {
   },
 
   created() {
-    console.debug("layout/default/created"); //DELETE
+    // console.debug("layout/default/created", this.$route.name); //DELETE
   },
   mounted() {
-    console.debug("layout/default/mounted"); //DELETE
+    // console.debug("layout/default/mounted"); //DELETE
   },
 };
 </script>
@@ -53,6 +63,8 @@ export default {
   }
   &__main {
     margin-top: 48px;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

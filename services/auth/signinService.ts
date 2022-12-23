@@ -15,11 +15,8 @@ interface Response {
 let error: Error = {};
 
 export const signinService = async (email: Email, password: Password): Promise<Response> => {
-  console.debug('services/auth/signinService/email', email); //DELETE
-  console.debug('services/auth/signinService/password', password); //DELETE
-
-  // mister.stolica@yandex.ru //DELETE
-  // qsT7KdzJPxwH+k3g //DELETE
+  // console.debug('services/auth/signinService/email', email); //DELETE
+  // console.debug('services/auth/signinService/password', password); //DELETE
 
   try {
     const response = await api.post('auth/signin', {
@@ -27,7 +24,7 @@ export const signinService = async (email: Email, password: Password): Promise<R
       password,
     });
 
-    console.debug('services/auth/signinService/response', response); //DELETE
+    // console.debug('services/auth/signinService/response', response); //DELETE
 
     const out: Response = {
       status: response.status,
