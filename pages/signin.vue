@@ -1,5 +1,6 @@
 <template lang="pug">
 .signin-page
+  div {{ myOwnCount }}
   v-card.mx-auto(width="400", elevation="7")
     v-list-item(two-line)
       v-list-item-title.text-h5(align="center") Авторизация
@@ -37,6 +38,9 @@
 
 <script>
 import { api } from "@/api/index";
+import { mapState } from "pinia";
+import { mapActions } from "pinia";
+import { useUserStore } from "@/store/UserStore";
 
 export default {
   components: {},
@@ -57,14 +61,23 @@ export default {
       checkbox: false,
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(useUserStore, {
+      myOwnCount: "count",
+    }),
+  },
 
   watch: {},
   methods: {
+    /* STORE */
+    ...mapActions(useUserStore, { myOwnIncrement: "increment" }),
+    
     /* GETTERS */
     /* SETTERS */
     /* HANDLERS */
     validate() {
+      this.myOwnIncrement(); //DELETE
+
       this.$refs.form.validate();
     },
     reset() {
@@ -79,7 +92,7 @@ export default {
   },
 
   created() {
-    console.debug('Signin::api', api); //DELETE
+    console.debug("Signin::api", api); //DELETE
   },
   mounted() {},
 };

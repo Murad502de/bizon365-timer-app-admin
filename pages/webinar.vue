@@ -1,12 +1,8 @@
 <template lang="pug">
 .webinar-detail-page
-  v-card.webinar-detail-page__card(
-    max-width="1000",
-    min-width="800",
-    elevation="7"
-  )
+  v-card.webinar-detail-page__card(max-width="800", elevation="7")
     .webinar-detail-page__card--head
-      v-list-item-title.text-h5.webinar-detail-page__title Вебинар
+      v-list-item-title.text-h5.webinar-detail-page__title {{ webinarName }}
       .webinar-detail-page__card--actions
         v-btn.webinar-detail-page__card--actions-item(
           color="blue",
@@ -18,14 +14,14 @@
           color="success",
           width="128",
           height="36",
-          :disabled="!valid",
+          :disabled="!webinarValid",
           @click="save"
         ) Сохранить
 
     .webinar-detail-page__card--body
       v-form.webinar-detail-page__webinar-info(
         ref="form",
-        v-model="valid",
+        v-model="webinarValid",
         lazy-validation
       )
         v-text-field.webinar-detail-page__form-input(
@@ -80,23 +76,81 @@
                   color="#ff5252"
                 ) mdi-delete
 
-  v-dialog(v-model="deleteDialog", max-width="500")
+  v-dialog(v-model="giftDeleteDialog", max-width="500")
     v-card
       v-card-title.text-h5 Подтверждение удаления
       v-card-text Вы действительно хотите удалить данный подарок "Подарок 123"?
       v-card-actions
         v-spacer
-        v-btn(color="green darken-1", text, @click="deleteDialog = false") Отменить
-        v-btn(color="error darken-1", text, @click="deleteDialog = false") Удалить
+        v-btn(color="green darken-1", text, @click="giftDeleteDialog = false") Отменить
+        v-btn(color="error darken-1", text, @click="giftDeleteDialog = false") Удалить
 
-  v-dialog(v-model="escapeDialog", max-width="500")
+  v-dialog(v-model="webinarEscapeDialog", max-width="500")
     v-card
       v-card-title.text-h5 Подтверждение ухода
       v-card-text Вы действительно хотите вернуться к списку вебинаров? Внимание, все несохранённые изменения будут удалены.
       v-card-actions
         v-spacer
-        v-btn(color="green darken-1", text, @click="escapeDialog = false") Отменить
+        v-btn(
+          color="green darken-1",
+          text,
+          @click="webinarEscapeDialog = false"
+        ) Отменить
         v-btn(color="error darken-1", text, @click="approveBack") Назад
+
+  v-dialog(v-model="giftDetailDialog", max-width="700")
+    v-card
+      v-card-title.text-h5 {{ giftDetailName }}
+      v-form.webinar-detail-page__gift-detail(
+        ref="form",
+        v-model="giftDetailValid",
+        lazy-validation
+      )
+        v-row
+          v-col
+            v-text-field.webinar-detail-page__form-input(
+              v-model="giftDetailName",
+              label="Название подарка",
+              variant="outlined",
+              color="blue",
+              required,
+              :rules="giftDetailNameRules"
+            )
+
+        v-row
+          v-col
+            v-text-field.webinar-detail-page__form-input(
+              v-model="giftDetailQueueNumber",
+              label="Порядковый номер в очереди",
+              variant="outlined",
+              color="blue",
+              required,
+              :rules="giftDetailQueueNumberRules"
+            )
+
+          v-col
+            v-text-field.webinar-detail-page__form-input(
+              v-model="giftDetailDelay",
+              label="Задержка в выдаче в секундах",
+              variant="outlined",
+              color="blue",
+              required,
+              :rules="giftDetailDelayRules"
+            )
+        v-row
+          v-col
+            v-text-field.webinar-detail-page__form-input(
+              v-model="giftDetailLink",
+              label="Ссылка на скачивание",
+              variant="outlined",
+              color="blue",
+              required,
+              :rules="giftDetailLinkRules"
+            )
+      v-card-actions
+        v-spacer
+        v-btn(color="error darken-1", text, @click="cancelGiftDetailDialog") Отменить
+        v-btn(color="green darken-1", text, @click="saveGiftDetailDialog") Сохранить
 </template>
 
 <script>
@@ -106,13 +160,27 @@ export default {
   props: {},
   data() {
     return {
-      deleteDialog: false,
-      escapeDialog: false,
-      valid: true,
+      webinarValid: true,
+      webinarEscapeDialog: false,
+
       webinarName: "",
       webinarNameRules: [(v) => !!v || "Обязательно к заполненнию"],
       webinarCode: "",
       webinarCodeRules: [(v) => !!v || "Обязательно к заполненнию"],
+
+      giftDeleteDialog: false,
+      giftDetailDialog: false,
+      giftDetailValid: true,
+
+      giftDetailNew: false,
+      giftDetailName: "",
+      giftDetailNameRules: [(v) => !!v || "Обязательно к заполненнию"],
+      giftDetailQueueNumber: "",
+      giftDetailQueueNumberRules: [(v) => !!v || "Обязательно к заполненнию"],
+      giftDetailDelay: "",
+      giftDetailDelayRules: [(v) => !!v || "Обязательно к заполненнию"],
+      giftDetailLink: "",
+      giftDetailLinkRules: [(v) => !!v || "Обязательно к заполненнию"],
 
       gifts: [{}, {}, {}],
     };
@@ -127,12 +195,12 @@ export default {
     back() {
       console.debug("webinar/back"); //DELETE
 
-      this.escapeDialog = true;
+      this.webinarEscapeDialog = true;
     },
     approveBack() {
       console.debug("webinar/approveBack"); //DELETE
 
-      this.escapeDialog = false;
+      this.webinarEscapeDialog = false;
       this.$router.push({ name: "index" });
     },
     save() {
@@ -140,14 +208,36 @@ export default {
     },
     addGift() {
       console.debug("webinar/addGift"); //DELETE
+
+      this.giftDetailNew = true;
+      this.giftDetailDialog = true;
     },
     editGift() {
       console.debug("webinar/editGift"); //DELETE
+
+      this.giftDetailNew = false;
+      this.giftDetailDialog = true;
+    },
+    cancelGiftDetailDialog() {
+      console.debug("webinar/cancelGiftDetailDialog"); //DELETE
+
+      this.giftDetailDialog = false;
+    },
+    saveGiftDetailDialog() {
+      console.debug("webinar/saveGiftDetailDialog"); //DELETE
+
+      this.giftDetailDialog = false;
+
+      if (this.giftDetailNew) {
+        console.debug("webinar/saveGiftDetailDialog/AddNewGift"); //DELETE
+      } else {
+        console.debug("webinar/saveGiftDetailDialog/EditGift"); //DELETE
+      }
     },
     deleteGift() {
       console.debug("webinar/deleteGift"); //DELETE
 
-      this.deleteDialog = true;
+      this.giftDeleteDialog = true;
     },
 
     /* HELPERS */
@@ -188,6 +278,7 @@ export default {
     padding: 24px;
 
     &--head {
+      width: 100%;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -197,10 +288,17 @@ export default {
     }
 
     &--body {
+      flex: 1;
       margin-top: 32px;
     }
 
     &--actions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
+      align-items: center;
+
       &-item {
         margin: 0 !important;
 
@@ -243,11 +341,9 @@ export default {
     &:first-child {
       margin-top: 0;
     }
-
     &--name {
       flex: 1;
     }
-
     &--actions {
       &_delete {
         // margin-left: 14px;
@@ -256,6 +352,12 @@ export default {
       &_edit {
         cursor: pointer;
       }
+    }
+
+    &-detail {
+      box-sizing: border-box;
+      margin-top: 48px;
+      padding: 0 24px;
     }
   }
 }
