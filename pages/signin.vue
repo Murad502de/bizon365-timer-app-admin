@@ -1,6 +1,6 @@
 <template lang="pug">
 .signin-page
-  div {{ myOwnCount }}
+  div {{ this.user }}
   v-card.mx-auto(width="400", elevation="7")
     v-list-item(two-line)
       v-list-item-title.text-h5(align="center") Авторизация
@@ -17,8 +17,8 @@
         )
 
         v-text-field.signin-page__form-input(
-          v-model="name",
-          :rules="nameRules",
+          v-model="password",
+          :rules="passwordRules",
           label="Пароль",
           required,
           variant="outlined",
@@ -49,8 +49,8 @@ export default {
   data() {
     return {
       valid: true,
-      name: "",
-      nameRules: [(v) => !!v || "Обязательно к заполненнию"],
+      password: "",
+      passwordRules: [(v) => !!v || "Обязательно к заполненнию"],
       email: "",
       emailRules: [
         (v) => !!v || "Обязательно к заполненнию",
@@ -63,22 +63,21 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, {
-      myOwnCount: "count",
+      user: "my",
     }),
   },
 
   watch: {},
   methods: {
     /* STORE */
-    ...mapActions(useUserStore, { myOwnIncrement: "increment" }),
-    
+    ...mapActions(useUserStore, ["signin"]),
+
     /* GETTERS */
     /* SETTERS */
     /* HANDLERS */
     validate() {
-      this.myOwnIncrement(); //DELETE
-
-      this.$refs.form.validate();
+      // this.$refs.form.validate();
+      this.signin(this.email, this.password); //DELETE
     },
     reset() {
       this.$refs.form.reset();
@@ -92,7 +91,8 @@ export default {
   },
 
   created() {
-    console.debug("Signin::api", api); //DELETE
+    console.debug("Signin/created/api", api); //DELETE
+    console.debug("Signin/created/user", this.user); //DELETE
   },
   mounted() {},
 };
