@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
+import Cookies from 'js-cookie';
 import { User } from '@/domain/User';
-import { UserMock } from './mocks/UserMock';
+import { getCredentials } from '@/services/credentials/credentialsService';
 
-const isMock: boolean = true;
 interface State {
   user: User | null;
 }
 
 export const useUserStore = defineStore('UserStore', {
   state: (): State => ({
-    user: null
+    user: getCredentials()
   }),
 
   getters: {
@@ -21,11 +21,13 @@ export const useUserStore = defineStore('UserStore', {
   },
 
   actions: {
-    async signin(email: Email, token: UserToken) {
-      console.debug('store/UserStore/signin/email', email); //DELETE
-      console.debug('store/UserStore/signin/token', token); //DELETE
+    async signin(user: User) {
+      console.debug('store/UserStore/signin/user', user); //DELETE
 
-      this.user = isMock ? UserMock : null;
+      this.user = user;
+
+      Cookies.set('uuid', user.uuid);
+      Cookies.set('token', user.token);
     },
   },
 });

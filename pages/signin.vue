@@ -1,6 +1,5 @@
 <template lang="pug">
 .signin-page
-  div {{ this.user }}
   v-card.mx-auto(width="400", elevation="7")
     v-list-item(two-line)
       v-list-item-title.text-h5(align="center") Авторизация
@@ -29,11 +28,21 @@
       .signin-page__form-button
         v-btn.mr-4(
           :disabled="!valid",
+          :loading="loading",
           color="blue",
           width="280",
           height="48",
-          @click="validate"
+          @click="signin"
         ) Войти
+
+  v-dialog.signin-page__auth-dialog--error(
+    v-model="errorAuthDialog",
+    transition="dialog-top-transition",
+    max-width="500"
+  )
+    v-card
+      v-card-title.text-h5.signin-page__auth-dialog--error-title Ошибка
+      v-card-text К сожалению, произошла ошибка, при аутентификации в системе. Пожалуйста, проверьте корректность введённых данных аутентификации.
 </template>
 
 <script>
@@ -41,6 +50,7 @@ import { api } from "@/api/index";
 import { mapState } from "pinia";
 import { mapActions } from "pinia";
 import { useUserStore } from "@/store/UserStore";
+import { signinService } from "@/services/auth/signinService";
 
 export default {
   components: {},
@@ -48,7 +58,9 @@ export default {
   props: {},
   data() {
     return {
+      errorAuthDialog: false,
       valid: true,
+      loading: false,
       password: "",
       passwordRules: [(v) => !!v || "Обязательно к заполненнию"],
       email: "",
@@ -70,14 +82,39 @@ export default {
   watch: {},
   methods: {
     /* STORE */
-    ...mapActions(useUserStore, ["signin"]),
+    ...mapActions(useUserStore, { signinStore: "signin" }),
 
     /* GETTERS */
     /* SETTERS */
     /* HANDLERS */
-    validate() {
-      // this.$refs.form.validate();
-      this.signin(this.email, this.password); //DELETE
+    async signin() {
+      console.debug("pages/signin/methods/signin"); //DELETE
+
+      this.loading = true;
+      const response = await signinService(this.email, this.password); //DELETE
+
+      console.debug("pages/signin/methods/signin/response", response); //DELETE
+      console.debug(
+        "pages/signin/methods/signin/response/status",
+        response.status
+      ); //DELETE
+
+      if (response.status !== 200) {
+        console.debug("pages/signin/methods/signin/error"); //DELETE
+
+        this.loading = false;
+        this.errorAuthDialog = true;
+
+        return;
+      }
+
+      console.debug("pages/signin/methods/signin/success", response); //DELETE
+
+      await this.signinStore(response.user);
+
+      this.loading = false;
+
+      this.$router.push({ name: "index" });
     },
     reset() {
       this.$refs.form.reset();
@@ -110,6 +147,14 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 0 24px;
+
+  &__auth-dialog {
+    &--error {
+      &-title {
+        color: #ff5252;
+      }
+    }
+  }
 
   & > .v-card {
     padding: 16px;
