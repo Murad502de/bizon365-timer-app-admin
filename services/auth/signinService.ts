@@ -1,8 +1,5 @@
 import { api } from '@/api';
 import { User } from '@/domain/User';
-import { UserMock } from '@/store/mocks/UserMock';
-
-const isMock: boolean = false;
 
 interface Error {
   response?: any;
@@ -28,7 +25,7 @@ export const signinService = async (email: Email, password: Password): Promise<R
 
     const out: Response = {
       status: response.status,
-      user: isMock ? UserMock : response.data,
+      user: response.data,
     };
 
     return out;
