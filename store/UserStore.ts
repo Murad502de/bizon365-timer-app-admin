@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import Cookies from 'js-cookie';
 import { User } from '@/domain/User';
 import { getCredentials, setCredentials, resetCredentials, } from '@/services/credentials/credentialsService';
 

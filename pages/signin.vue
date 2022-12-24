@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import { api } from "@/api/index";
 import { mapState } from "pinia";
 import { mapActions } from "pinia";
 import { useUserStore } from "@/store/UserStore";

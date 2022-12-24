@@ -29,8 +29,7 @@ export const signinService = async (email: Email, password: Password): Promise<R
     };
 
     return out;
-  }
-  catch (e) {
+  } catch (e) {
     return Object.assign(error, e).response;
   }
 };

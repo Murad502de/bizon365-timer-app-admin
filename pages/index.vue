@@ -11,25 +11,32 @@
         color="blue",
         width="128",
         height="36",
+        :disabled="!webinarsFetched",
         @click="addWebinar"
       ) Добавить
 
     .webinar-list-page__card--body
       .webinar-list-page__list
+        Skeleton.webinar-list-page__list-item(
+          v-for="skeleton in 3",
+          v-if="!webinarsFetched",
+          height="60"
+        )
         v-card.webinar-list-page__list-item(
           v-for="(webinar, index) in webinars",
-          :key="index",
+          :key="webinar.uuid",
           max-width="900",
           min-width="700",
           elevation="3"
         )
-          .webinar-list-page__list-item--name name {{ index }}
+          .webinar-list-page__list-item--name {{ webinar.name }}
           .webinar-list-page__list-item--actions
             v-btn(
               icon,
               elevation="0",
               height="32",
               width="32",
+              :disabled="webinar.deleteLoader",
               @click="editWebinar"
             )
               v-icon.webinar-list-page__list-item--actions_edit(
@@ -41,7 +48,8 @@
               elevation="0",
               height="32",
               width="32",
-              @click="deleteWebinar"
+              :loading="webinar.deleteLoader",
+              @click="deleteWebinar({ uuid: webinar.uuid })"
             )
               v-icon.webinar-list-page__list-item--actions_delete(
                 color="#ff5252"
@@ -53,22 +61,36 @@
       v-card-text Вы действительно хотите удалить данный вебинар "Вебинар 123", включая все привязанные подарки и их настройки?
       v-card-actions
         v-spacer
-        v-btn(color="green darken-1", text, @click="dialog = false") Отменить
-        v-btn(color="error darken-1", text, @click="dialog = false") Удалить
+        v-btn(color="green darken-1", text, @click="cancelDeleteWebinar") Отменить
+        v-btn(color="error darken-1", text, @click="approveDeleteWebinar") Удалить
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { mapActions } from "pinia";
+import { useWebinarStore } from "@/store/WebinarStore";
+import { fetchWebinars } from "@/api/webinar/webinars";
+import Skeleton from "@/components/ui-embedded/Skeleton";
+
 export default {
-  components: {},
+  components: {
+    Skeleton,
+  },
 
   props: {},
   data() {
     return {
-      webinars: [{}, {}, {}, {}],
       dialog: false,
+      webinars: [],
+      webinarsFetched: false,
+      deleteWebinarUuid: null,
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(useWebinarStore, {
+      webinarsStore: "webinarList",
+    }),
+  },
 
   watch: {},
   methods: {
@@ -92,18 +114,57 @@ export default {
         },
       });
     },
-    deleteWebinar() {
-      console.debug("delete"); //
+    deleteWebinar({ uuid }) {
+      console.debug("pages/webinars/methods/deleteWebinar", uuid); //DELETE
 
+      this.deleteWebinarUuid = uuid;
       this.dialog = true;
+    },
+    approveDeleteWebinar() {
+      console.debug("pages/webinars/methods/approveDeleteWebinar"); //DELETE
+
+      if (this.deleteWebinarUuid) {
+        console.debug("pages/webinars/methods/approveDeleteWebinar/delete"); //DELETE
+
+        this.webinars.forEach((webinar) => {
+          if (webinar.uuid === this.deleteWebinarUuid) {
+            console.debug(
+              "pages/webinars/methods/approveDeleteWebinar/deleteWebinarUuid",
+              this.deleteWebinarUuid
+            ); //DELETE
+
+            webinar.deleteLoader = true;
+          }
+        });
+      }
+
+      this.deleteWebinarUuid = null;
+      this.dialog = false;
+    },
+    cancelDeleteWebinar() {
+      console.debug("pages/webinars/methods/cancelDeleteWebinar"); //DELETE
+
+      this.deleteWebinarUuid = null;
+      this.dialog = false;
     },
 
     /* HELPERS */
     /* ACTIONS */
   },
 
-  created() {
-    console.debug("Webinars/created", this.$route); //DELETE
+  async created() {
+    console.debug("pages/webinars/created", this.$route); //DELETE
+
+    const response = await fetchWebinars();
+
+    this.webinars = response.webinars.data.map((webinar) => ({
+      ...webinar,
+      deleteLoader: false,
+    }));
+    this.webinarsFetched = true;
+
+    console.debug("pages/webinars/webinars", this.webinars); //DELETE
+    console.debug("pages/webinars/webinarsFetched", this.webinarsFetched); //DELETE
   },
   mounted() {},
 };
