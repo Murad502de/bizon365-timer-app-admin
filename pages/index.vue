@@ -37,7 +37,7 @@
               height="32",
               width="32",
               :disabled="webinar.deleteLoader",
-              @click="editWebinar"
+              @click="editWebinar({ uuid: webinar.uuid })"
             )
               v-icon.webinar-list-page__list-item--actions_edit(
                 color="#607d8b"
@@ -105,13 +105,13 @@ export default {
         name: "webinar",
       });
     },
-    editWebinar() {
-      console.debug("edit"); //DELETE
+    editWebinar({ uuid }) {
+      console.debug("pages/webinars/methods/editWebinar", uuid); //DELETE
 
       this.$router.push({
         name: "webinar",
         query: {
-          uuidWebinar: "qwer-asdf-zxcv-lkjhg12",
+          uuidWebinar: uuid,
         },
       });
     },
