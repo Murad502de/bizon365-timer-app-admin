@@ -70,6 +70,7 @@ import { mapState } from "pinia";
 import { mapActions } from "pinia";
 import { useWebinarStore } from "@/store/WebinarStore";
 import { fetchWebinars } from "@/api/webinar/webinars";
+import { deleteWebinar } from "@/api/webinar/webinar";
 import Skeleton from "@/components/ui-embedded/Skeleton";
 
 export default {
@@ -120,8 +121,10 @@ export default {
       this.deleteWebinarUuid = uuid;
       this.dialog = true;
     },
-    approveDeleteWebinar() {
+    async approveDeleteWebinar() {
       console.debug("pages/webinars/methods/approveDeleteWebinar"); //DELETE
+
+      this.dialog = false;
 
       if (this.deleteWebinarUuid) {
         console.debug("pages/webinars/methods/approveDeleteWebinar/delete"); //DELETE
@@ -136,10 +139,24 @@ export default {
             webinar.deleteLoader = true;
           }
         });
+
+        const response = await deleteWebinar(this.deleteWebinarUuid);
+
+        console.debug(
+          "pages/webinars/methods/approveDeleteWebinar/response",
+          response
+        ); //DELETE
+
+        if (response.status === 200) {
+          this.webinars = this.webinars.filter(
+            (webinar) => webinar.uuid !== this.deleteWebinarUuid
+          );
+        } else {
+          alert("Ошибка при удалении");
+        }
       }
 
       this.deleteWebinarUuid = null;
-      this.dialog = false;
     },
     cancelDeleteWebinar() {
       console.debug("pages/webinars/methods/cancelDeleteWebinar"); //DELETE
