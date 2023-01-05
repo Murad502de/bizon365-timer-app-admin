@@ -25,16 +25,16 @@ export const createGift = async (
   delay: number,
   link: string
 ): Promise<CreateResponse> => {
-  console.debug('api/webinar/webinars/deleteGift/webinar_uuid', webinar_uuid); //DELETE
-  console.debug('api/webinar/webinars/deleteGift/name', name); //DELETE
-  console.debug('api/webinar/webinars/deleteGift/number', number); //DELETE
-  console.debug('api/webinar/webinars/deleteGift/delay', delay); //DELETE
-  console.debug('api/webinar/webinars/deleteGift/link', link); //DELETE
+  // console.debug('api/webinar/webinars/deleteGift/webinar_uuid', webinar_uuid); //DELETE
+  // console.debug('api/webinar/webinars/deleteGift/name', name); //DELETE
+  // console.debug('api/webinar/webinars/deleteGift/number', number); //DELETE
+  // console.debug('api/webinar/webinars/deleteGift/delay', delay); //DELETE
+  // console.debug('api/webinar/webinars/deleteGift/link', link); //DELETE
 
   try {
     const response = await api.post(`gifts`, { webinar_uuid, name, number, delay, link, });
 
-    console.debug('api/webinar/webinars/deleteGift/response', response); //DELETE
+    // console.debug('api/webinar/webinars/deleteGift/response', response); //DELETE
 
     const out: CreateResponse = {
       status: response.status,
@@ -47,7 +47,7 @@ export const createGift = async (
   }
 };
 export const fetchGiftDetail = () => {
-  console.debug('api/gift/fetchGiftDetail'); //DELETE
+  // console.debug('api/gift/fetchGiftDetail'); //DELETE
 };
 export const updateGift = async (
   uuid: string,
@@ -56,16 +56,16 @@ export const updateGift = async (
   delay: number,
   link: string
 ): Promise<Response> => {
-  console.debug('api/webinar/webinars/updateGift/uuid', uuid); //DELETE
-  console.debug('api/webinar/webinars/updateGift/name', name); //DELETE
-  console.debug('api/webinar/webinars/updateGift/number', number); //DELETE
-  console.debug('api/webinar/webinars/updateGift/delay', delay); //DELETE
-  console.debug('api/webinar/webinars/updateGift/link', link); //DELETE
+  // console.debug('api/webinar/webinars/updateGift/uuid', uuid); //DELETE
+  // console.debug('api/webinar/webinars/updateGift/name', name); //DELETE
+  // console.debug('api/webinar/webinars/updateGift/number', number); //DELETE
+  // console.debug('api/webinar/webinars/updateGift/delay', delay); //DELETE
+  // console.debug('api/webinar/webinars/updateGift/link', link); //DELETE
 
   try {
     const response = await api.put(`gifts/${uuid}`, { name, number, delay, link, });
 
-    console.debug('api/webinar/webinars/updateGift/response', response); //DELETE
+    // console.debug('api/webinar/webinars/updateGift/response', response); //DELETE
 
     const out: Response = {
       status: response.status,
@@ -77,12 +77,12 @@ export const updateGift = async (
   }
 };
 export const deleteGift = async (uuid: string): Promise<Response> => {
-  console.debug('api/webinar/webinars/deleteGift/name', uuid); //DELETE
+  // console.debug('api/webinar/webinars/deleteGift/name', uuid); //DELETE
 
   try {
     const response = await api.delete(`gifts/${uuid}`,);
 
-    console.debug('api/webinar/webinars/deleteGift/response', response); //DELETE
+    // console.debug('api/webinar/webinars/deleteGift/response', response); //DELETE
 
     const out: Response = {
       status: response.status,

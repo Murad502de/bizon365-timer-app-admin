@@ -16,12 +16,12 @@ export const useWebinarStore = defineStore('WebinarStore', {
 
   getters: {
     webinar: (state): Webinar | null => {
-      console.debug('store/WebinarStore/webinar'); //DELETE
+      // console.debug('store/WebinarStore/webinar'); //DELETE
 
       return state.webinar;
     },
     webinarList: (state): Array<Webinar> => {
-      console.debug('store/WebinarStore/webinarList'); //DELETE
+      // console.debug('store/WebinarStore/webinarList'); //DELETE
 
       return state.webinarList;
     },

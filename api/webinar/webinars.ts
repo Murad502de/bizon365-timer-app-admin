@@ -12,12 +12,12 @@ interface Response {
 let error: Error = {};
 
 export const fetchWebinars = async (): Promise<Response> => {
-  console.debug('api/webinar/webinars/fetchWebinars'); //DELETE
+  // console.debug('api/webinar/webinars/fetchWebinars'); //DELETE
 
   try {
     const response = await api.get('webinars');
 
-    console.debug('api/webinar/webinars/fetchWebinars/response', response); //DELETE
+    // console.debug('api/webinar/webinars/fetchWebinars/response', response); //DELETE
 
     const out: Response = {
       status: response.status,

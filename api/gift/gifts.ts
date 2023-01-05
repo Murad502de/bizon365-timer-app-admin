@@ -1,3 +1,3 @@
 export const fetchGifts = () => {
-  console.debug('api/gift/fetchGifts'); //DELETE
+  // console.debug('api/gift/fetchGifts'); //DELETE
 };

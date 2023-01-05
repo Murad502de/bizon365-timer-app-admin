@@ -90,7 +90,7 @@ export default {
       // console.debug("pages/signin/methods/signin"); //DELETE
 
       this.loading = true;
-      const response = await signinService(this.email, this.password); //DELETE
+      const response = await signinService(this.email, this.password);
 
       // console.debug("pages/signin/methods/signin/response", response); //DELETE
       // console.debug(

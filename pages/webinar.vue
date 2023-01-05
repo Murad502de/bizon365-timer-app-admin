@@ -226,25 +226,25 @@ export default {
     /* SETTERS */
     /* HANDLERS */
     back() {
-      console.debug("webinar/back"); //DELETE
+      // console.debug("webinar/back"); //DELETE
 
       this.webinarEscapeDialog = true;
     },
     approveBack() {
-      console.debug("webinar/approveBack"); //DELETE
+      // console.debug("webinar/approveBack"); //DELETE
 
       this.webinarEscapeDialog = false;
       this.$router.push({ name: "index" });
     },
     async saveWebinar() {
-      console.debug("pages/webinar/methods/save/isNew", this.isNew); //DELETE
+      // console.debug("pages/webinar/methods/save/isNew", this.isNew); //DELETE
 
       this.webinarSaveLoader = true;
 
       let uuidWebinar = "";
 
       if (this.isNew) {
-        console.debug("pages/webinar/methods/save/new"); //DELETE
+        // console.debug("pages/webinar/methods/save/new"); //DELETE
 
         //TODO: create new Webinar
         const response = await createWebinar(
@@ -252,7 +252,7 @@ export default {
           this.webinarCode
         );
 
-        console.debug("pages/webinar/methods/save/new/response", response); //DELETE
+        // console.debug("pages/webinar/methods/save/new/response", response); //DELETE
 
         if (response.status === 200) {
           uuidWebinar = response.webinarUuid;
@@ -266,7 +266,7 @@ export default {
           });
         }
       } else {
-        console.debug("pages/webinar/methods/save/not-new"); //DELETE
+        // console.debug("pages/webinar/methods/save/not-new"); //DELETE
 
         const response = await updateWebinar(
           this.uuidWebinar,
@@ -274,7 +274,7 @@ export default {
           this.webinarCode
         );
 
-        console.debug("pages/webinar/methods/save/not-new/response", response); //DELETE
+        // console.debug("pages/webinar/methods/save/not-new/response", response); //DELETE
 
         await this.saveGifts(this.uuidWebinar);
 
@@ -293,16 +293,16 @@ export default {
       this.webinarSaveLoader = false;
     },
     async saveGifts(webinarUuid) {
-      console.debug("pages/webinar/methods/saveGifts/webinarUuid", webinarUuid); //DELETE
+      // console.debug("pages/webinar/methods/saveGifts/webinarUuid", webinarUuid); //DELETE
 
       if (!webinarUuid) {
         return;
       }
 
-      console.debug("pages/webinar/methods/save/addGifts", this.addGifts); //DELETE
+      // console.debug("pages/webinar/methods/save/addGifts", this.addGifts); //DELETE
 
       for (let i = 0; i < this.addGifts.length; i++) {
-        console.debug("pages/webinar/methods/save/addGift", this.addGifts[i]); //DELETE
+        // console.debug("pages/webinar/methods/save/addGift", this.addGifts[i]); //DELETE
 
         await createGift(
           webinarUuid,
@@ -313,19 +313,19 @@ export default {
         );
       }
 
-      console.debug("pages/webinar/methods/save/updateGifts", this.updateGifts); //DELETE
+      // console.debug("pages/webinar/methods/save/updateGifts", this.updateGifts); //DELETE
 
       for (let i = 0; i < this.updateGifts.length; i++) {
-        console.debug(
-          "pages/webinar/methods/save/updateGift",
-          this.updateGifts[i]
-        ); //DELETE
+        // console.debug(
+        //   "pages/webinar/methods/save/updateGift",
+        //   this.updateGifts[i]
+        // ); //DELETE
 
         const gift = this.gifts.find(
           (gift) => gift.uuid === this.updateGifts[i]
         );
 
-        console.debug("pages/webinar/methods/save/updateGift/gift", gift); //DELETE
+        // console.debug("pages/webinar/methods/save/updateGift/gift", gift); //DELETE
 
         if (gift) {
           await updateGift(
@@ -338,26 +338,26 @@ export default {
         }
       }
 
-      console.debug("pages/webinar/methods/save/deleteGifts", this.deleteGifts); //DELETE
+      // console.debug("pages/webinar/methods/save/deleteGifts", this.deleteGifts); //DELETE
 
       for (let i = 0; i < this.deleteGifts.length; i++) {
-        console.debug(
-          "pages/webinar/methods/save/deleteGift",
-          this.deleteGifts[i]
-        ); //DELETE
+        // console.debug(
+        //   "pages/webinar/methods/save/deleteGift",
+        //   this.deleteGifts[i]
+        // ); //DELETE
 
         await deleteGift(this.deleteGifts[i]);
       }
     },
     addGift() {
-      console.debug("pages/webinar/methods/addGift"); //DELETE
+      // console.debug("pages/webinar/methods/addGift"); //DELETE
 
       this.giftDetailNew = true;
       this.giftDetailDialog = true;
       this.giftDetailUuid = new Date().getTime();
     },
     editGift({ uuid }) {
-      console.debug("pages/webinar/methods/editGift", uuid); //DELETE
+      // console.debug("pages/webinar/methods/editGift", uuid); //DELETE
 
       this.giftDetailNew = false;
       this.giftDetailDialog = true;
@@ -371,21 +371,21 @@ export default {
       this.giftDetailLink = gift.link;
     },
     cancelGiftDetailDialog() {
-      console.debug("pages/webinar/methods/cancelGiftDetailDialog"); //DELETE
+      // console.debug("pages/webinar/methods/cancelGiftDetailDialog"); //DELETE
 
-      if (this.giftDetailNew) {
-        console.debug(
-          "pages/webinar/methods/cancelGiftDetailDialog/AddNewGift"
-        ); //DELETE
-      } else {
-        console.debug("pages/webinar/methods/cancelGiftDetailDialog/EditGift"); //DELETE
-      }
+      // if (this.giftDetailNew) {
+      //   console.debug(
+      //     "pages/webinar/methods/cancelGiftDetailDialog/AddNewGift"
+      //   ); //DELETE
+      // } else {
+      //   console.debug("pages/webinar/methods/cancelGiftDetailDialog/EditGift"); //DELETE
+      // }
 
       this.giftDetailDialog = false;
       this.closeGiftDetailDialog();
     },
     async saveGiftDetailDialog() {
-      console.debug("pages/webinar/methods/saveGiftDetailDialog"); //DELETE
+      // console.debug("pages/webinar/methods/saveGiftDetailDialog"); //DELETE
 
       const editedGift = {
         uuid: this.giftDetailUuid,
@@ -396,42 +396,42 @@ export default {
       };
 
       if (this.giftDetailNew) {
-        console.debug("pages/webinar/methods/saveGiftDetailDialog/AddNewGift"); //DELETE
+        // console.debug("pages/webinar/methods/saveGiftDetailDialog/AddNewGift"); //DELETE
 
         this.addGifts.push(editedGift);
       } else {
-        console.debug("pages/webinar/methods/saveGiftDetailDialog/EditGift"); //DELETE
+        // console.debug("pages/webinar/methods/saveGiftDetailDialog/EditGift"); //DELETE
 
         const fromGiftsIndex = this.gifts.findIndex(
           (gift) => gift.uuid === editedGift.uuid
         );
 
-        console.debug(
-          "pages/webinar/methods/saveGiftDetailDialog/EditGift/fromGiftsIndex",
-          fromGiftsIndex
-        ); //DELETE
+        // console.debug(
+        //   "pages/webinar/methods/saveGiftDetailDialog/EditGift/fromGiftsIndex",
+        //   fromGiftsIndex
+        // ); //DELETE
 
         if (fromGiftsIndex !== -1) {
-          console.debug(
-            "pages/webinar/methods/saveGiftDetailDialog/EditGift/from-server"
-          ); //DELETE
+          // console.debug(
+          //   "pages/webinar/methods/saveGiftDetailDialog/EditGift/from-server"
+          // ); //DELETE
 
           this.gifts[fromGiftsIndex] = editedGift;
 
           const fromUpdateGifts = this.updateGifts.includes(editedGift.uuid);
 
-          console.debug(
-            "pages/webinar/methods/saveGiftDetailDialog/EditGift/from-server/fromUpdateGifts",
-            fromUpdateGifts
-          ); //DELETE
+          // console.debug(
+          //   "pages/webinar/methods/saveGiftDetailDialog/EditGift/from-server/fromUpdateGifts",
+          //   fromUpdateGifts
+          // ); //DELETE
 
           if (!fromUpdateGifts) {
             this.updateGifts.push(editedGift.uuid);
           }
         } else {
-          console.debug(
-            "pages/webinar/methods/saveGiftDetailDialog/EditGift/from-add"
-          ); //DELETE
+          // console.debug(
+          //   "pages/webinar/methods/saveGiftDetailDialog/EditGift/from-add"
+          // ); //DELETE
 
           this.addGifts = this.addGifts.map((addGift) => {
             if (addGift.uuid === editedGift.uuid) {
@@ -447,7 +447,7 @@ export default {
       this.closeGiftDetailDialog();
     },
     closeGiftDetailDialog() {
-      console.debug("pages/webinar/methods/closeGiftDetailDialog"); //DELETE
+      // console.debug("pages/webinar/methods/closeGiftDetailDialog"); //DELETE
 
       this.giftDetailUuid = null;
       this.giftDetailName = null;
@@ -456,16 +456,16 @@ export default {
       this.giftDetailLink = null;
     },
     deleteGift({ uuid }) {
-      console.debug("pages/webinar/methods/deleteGift/uuid", uuid); //DELETE
+      // console.debug("pages/webinar/methods/deleteGift/uuid", uuid); //DELETE
 
       this.deleteGiftUuid = uuid;
       this.giftDeleteDialog = true;
     },
     approveDeleteGift() {
-      console.debug(
-        "pages/webinar/methods/approveDeleteGift/deleteGiftUuid",
-        this.deleteGiftUuid
-      ); //DELETE
+      // console.debug(
+      //   "pages/webinar/methods/approveDeleteGift/deleteGiftUuid",
+      //   this.deleteGiftUuid
+      // ); //DELETE
 
       this.giftDeleteDialog = false;
 
@@ -473,10 +473,10 @@ export default {
         (addGift) => addGift.uuid === this.deleteGiftUuid
       );
 
-      console.debug(
-        "pages/webinar/methods/approveDeleteGift/deleteGiftUuid/fromAddGifts",
-        fromAddGifts
-      ); //DELETE
+      // console.debug(
+      //   "pages/webinar/methods/approveDeleteGift/deleteGiftUuid/fromAddGifts",
+      //   fromAddGifts
+      // ); //DELETE
 
       if (fromAddGifts) {
         this.addGifts = this.addGifts.filter(
@@ -492,10 +492,10 @@ export default {
       this.deleteGiftUuid = null;
     },
     cancelDeleteGift() {
-      console.debug(
-        "pages/webinar/methods/cancelDeleteGift/deleteGiftUuid",
-        this.deleteGiftUuid
-      ); //DELETE
+      // console.debug(
+      //   "pages/webinar/methods/cancelDeleteGift/deleteGiftUuid",
+      //   this.deleteGiftUuid
+      // ); //DELETE
 
       this.giftDeleteDialog = false;
 
@@ -505,20 +505,20 @@ export default {
     /* HELPERS */
     /* ACTIONS */
     async fetch(uuidWebinar) {
-      console.debug("pages/webinar/methods/fetch", this.isNew); //DELETE
-      console.debug("pages/webinar/methods/this.uuidWebinar", this.uuidWebinar); //DELETE
-      console.debug("pages/webinar/methods/uuidWebinar", uuidWebinar); //DELETE
+      // console.debug("pages/webinar/methods/fetch", this.isNew); //DELETE
+      // console.debug("pages/webinar/methods/this.uuidWebinar", this.uuidWebinar); //DELETE
+      // console.debug("pages/webinar/methods/uuidWebinar", uuidWebinar); //DELETE
 
       const response = await fetchWebinarDetail(
         this.uuidWebinar || uuidWebinar
       );
 
-      console.debug("pages/webinar/methods/fetch/response", response); //DELETE
+      // console.debug("pages/webinar/methods/fetch/response", response); //DELETE
 
       if (response.status === 200) {
         const webinar = response.webinar.data;
 
-        console.debug("pages/webinar/methods/fetch/response/webinar", webinar); //DELETE
+        // console.debug("pages/webinar/methods/fetch/response/webinar", webinar); //DELETE
 
         this.webinarName = webinar.name;
         this.webinarCode = webinar.code;
@@ -530,9 +530,9 @@ export default {
   },
 
   async created() {
-    console.debug("pages/webinar/created/route", this.$route); //DELETE
-    console.debug("pages/webinar/created/uuidWebinar", this.uuidWebinar); //DELETE
-    console.debug("pages/webinar/created/isNew", this.isNew); //DELETE
+    // console.debug("pages/webinar/created/route", this.$route); //DELETE
+    // console.debug("pages/webinar/created/uuidWebinar", this.uuidWebinar); //DELETE
+    // console.debug("pages/webinar/created/isNew", this.isNew); //DELETE
 
     if (!this.isNew) {
       await this.fetch();

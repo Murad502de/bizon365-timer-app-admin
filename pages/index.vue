@@ -99,14 +99,14 @@ export default {
     /* SETTERS */
     /* HANDLERS */
     addWebinar() {
-      console.debug("add"); //DELETE
+      // console.debug("add"); //DELETE
 
       this.$router.push({
         name: "webinar",
       });
     },
     editWebinar({ uuid }) {
-      console.debug("pages/webinars/methods/editWebinar", uuid); //DELETE
+      // console.debug("pages/webinars/methods/editWebinar", uuid); //DELETE
 
       this.$router.push({
         name: "webinar",
@@ -116,25 +116,25 @@ export default {
       });
     },
     deleteWebinar({ uuid }) {
-      console.debug("pages/webinars/methods/deleteWebinar", uuid); //DELETE
+      // console.debug("pages/webinars/methods/deleteWebinar", uuid); //DELETE
 
       this.deleteWebinarUuid = uuid;
       this.dialog = true;
     },
     async approveDeleteWebinar() {
-      console.debug("pages/webinars/methods/approveDeleteWebinar"); //DELETE
+      // console.debug("pages/webinars/methods/approveDeleteWebinar"); //DELETE
 
       this.dialog = false;
 
       if (this.deleteWebinarUuid) {
-        console.debug("pages/webinars/methods/approveDeleteWebinar/delete"); //DELETE
+        // console.debug("pages/webinars/methods/approveDeleteWebinar/delete"); //DELETE
 
         this.webinars.forEach((webinar) => {
           if (webinar.uuid === this.deleteWebinarUuid) {
-            console.debug(
-              "pages/webinars/methods/approveDeleteWebinar/deleteWebinarUuid",
-              this.deleteWebinarUuid
-            ); //DELETE
+            // console.debug(
+            //   "pages/webinars/methods/approveDeleteWebinar/deleteWebinarUuid",
+            //   this.deleteWebinarUuid
+            // ); //DELETE
 
             webinar.deleteLoader = true;
           }
@@ -142,10 +142,10 @@ export default {
 
         const response = await deleteWebinar(this.deleteWebinarUuid);
 
-        console.debug(
-          "pages/webinars/methods/approveDeleteWebinar/response",
-          response
-        ); //DELETE
+        // console.debug(
+        //   "pages/webinars/methods/approveDeleteWebinar/response",
+        //   response
+        // ); //DELETE
 
         if (response.status === 200) {
           this.webinars = this.webinars.filter(
@@ -159,7 +159,7 @@ export default {
       this.deleteWebinarUuid = null;
     },
     cancelDeleteWebinar() {
-      console.debug("pages/webinars/methods/cancelDeleteWebinar"); //DELETE
+      // console.debug("pages/webinars/methods/cancelDeleteWebinar"); //DELETE
 
       this.deleteWebinarUuid = null;
       this.dialog = false;
@@ -170,7 +170,7 @@ export default {
   },
 
   async created() {
-    console.debug("pages/webinars/created", this.$route); //DELETE
+    // console.debug("pages/webinars/created", this.$route); //DELETE
 
     const response = await fetchWebinars();
 
@@ -180,8 +180,8 @@ export default {
     }));
     this.webinarsFetched = true;
 
-    console.debug("pages/webinars/webinars", this.webinars); //DELETE
-    console.debug("pages/webinars/webinarsFetched", this.webinarsFetched); //DELETE
+    // console.debug("pages/webinars/webinars", this.webinars); //DELETE
+    // console.debug("pages/webinars/webinarsFetched", this.webinarsFetched); //DELETE
   },
   mounted() {},
 };

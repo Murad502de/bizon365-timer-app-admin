@@ -19,13 +19,13 @@ interface Response {
 let error: Error = {};
 
 export const createWebinar = async (name: string, code: string): Promise<CreateResponse> => {
-  console.debug('api/webinar/webinars/deleteWebinar/name', name); //DELETE
-  console.debug('api/webinar/webinars/deleteWebinar/code', code); //DELETE
+  // console.debug('api/webinar/webinars/deleteWebinar/name', name); //DELETE
+  // console.debug('api/webinar/webinars/deleteWebinar/code', code); //DELETE
 
   try {
     const response = await api.post(`webinars`, { name, code, });
 
-    console.debug('api/webinar/webinars/deleteWebinar/response', response); //DELETE
+    // console.debug('api/webinar/webinars/deleteWebinar/response', response); //DELETE
 
     const out: CreateResponse = {
       status: response.status,
@@ -38,12 +38,12 @@ export const createWebinar = async (name: string, code: string): Promise<CreateR
   }
 };
 export const fetchWebinarDetail = async (uuid: string): Promise<FetchResponse> => {
-  console.debug('api/webinar/webinars/fetchWebinarDetail', uuid); //DELETE
+  // console.debug('api/webinar/webinars/fetchWebinarDetail', uuid); //DELETE
 
   try {
     const response = await api.get(`webinars/${uuid}`);
 
-    console.debug('api/webinar/webinars/fetchWebinarDetail/response', response); //DELETE
+    // console.debug('api/webinar/webinars/fetchWebinarDetail/response', response); //DELETE
 
     const out: FetchResponse = {
       status: response.status,
@@ -56,14 +56,14 @@ export const fetchWebinarDetail = async (uuid: string): Promise<FetchResponse> =
   }
 };
 export const updateWebinar = async (uuid: string, name: string, code: string): Promise<Response> => {
-  console.debug('api/webinar/webinars/deleteWebinar/uuid', uuid); //DELETE
-  console.debug('api/webinar/webinars/deleteWebinar/name', name); //DELETE
-  console.debug('api/webinar/webinars/deleteWebinar/code', code); //DELETE
+  // console.debug('api/webinar/webinars/deleteWebinar/uuid', uuid); //DELETE
+  // console.debug('api/webinar/webinars/deleteWebinar/name', name); //DELETE
+  // console.debug('api/webinar/webinars/deleteWebinar/code', code); //DELETE
 
   try {
     const response = await api.put(`webinars/${uuid}`, { name, code, });
 
-    console.debug('api/webinar/webinars/deleteWebinar/response', response); //DELETE
+    // console.debug('api/webinar/webinars/deleteWebinar/response', response); //DELETE
 
     const out: Response = {
       status: response.status,
@@ -75,12 +75,12 @@ export const updateWebinar = async (uuid: string, name: string, code: string): P
   }
 };
 export const deleteWebinar = async (uuid: string): Promise<Response> => {
-  console.debug('api/webinar/webinars/deleteWebinar', uuid); //DELETE
+  // console.debug('api/webinar/webinars/deleteWebinar', uuid); //DELETE
 
   try {
     const response = await api.delete(`webinars/${uuid}`);
 
-    console.debug('api/webinar/webinars/deleteWebinar/response', response); //DELETE
+    // console.debug('api/webinar/webinars/deleteWebinar/response', response); //DELETE
 
     const out: Response = {
       status: response.status,
